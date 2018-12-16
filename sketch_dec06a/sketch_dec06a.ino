@@ -30,23 +30,23 @@ void printNow()
     {
         lcd.setCursor(5, 0);
         lcd.print("Row ");
-        lcd.print(posX);
-        // Serial.print("Row ");
-        // Serial.println(posX + 1);
+        lcd.print(posX + 1);
+        Serial.print("Row ");
+        Serial.println(posX + 1);
     }
     else
     {
         lcd.setCursor(4, 0);
         lcd.print("Column ");
-        lcd.print(posY);
-        // Serial.print("Column ");
-        // Serial.println(posY + 1);
+        lcd.print(posY + 1);
+        Serial.print("Column ");
+        Serial.println(posY + 1);
     }
     lcd.setCursor(2, 1);
     lcd.print(remTurns);
     lcd.print(" remaining");
-    // Serial.print(remTurns);
-    // Serial.println(" remaining");
+    Serial.print(remTurns);
+    Serial.println(" remaining");
 }
 void invertRow(int i)
 {
@@ -92,10 +92,10 @@ void printScore()
     lcd.clear();
     lcd.setCursor(4, 0);
     lcd.print("Congrats");
-    // Serial.print("Congrats");
+    Serial.print("Congrats");
     lcd.setCursor(1, 1);
     lcd.print("Your score");
-    // Serial.print("Your score");
+    Serial.print("Your score");
     
     int count = 0, i, j;
     for (i = 0; i < 8; i++)
@@ -125,15 +125,15 @@ void setup()
 
     lcd.setCursor(3, 0);
     lcd.print("Welcome to");
-    // Serial.println("Welcome to");
+    Serial.println("Welcome to");
     lcd.setCursor(1, 1);
     lcd.print("One More Flip");
-    // Serial.println("One More Flip");
+    Serial.println("One More Flip");
 
-    dellay(300);
+    delay(3000);
     lcd.clear();
 }
-boolean movedX = false, movedY = false, selected = false;
+boolean movedX = false, movedY = false;
 void play()
 {
   int valX = analogRead(joyX);
@@ -197,7 +197,7 @@ void play()
   if (posX == -1) 
     posX = 7;
 
-  // Serial.println(remTurns);
+  Serial.println(remTurns);
   
   switchValue = digitalRead(switchPin);
   if (switchValue != lastSwitch)
@@ -250,10 +250,13 @@ void play()
   }
   lastReset = resetValue;
   
-  if (millis() - lastPrintedTime > refreshRate)
+  if (state == 0)
   {
-      lastPrintedTime = millis();
-      printNow();
+    if (millis() - lastPrintedTime > refreshRate)
+    {
+        lastPrintedTime = millis();
+        printNow();
+    }
   }
 }
 void final()
@@ -286,20 +289,20 @@ void chooseDiff()
     {
         lcd.setCursor(6, 1);
         lcd.print("Hard");
-        // Serial.println("Hard");
+        Serial.println("Hard");
     }
     else
       if (difficulty == 1)
       {
           lcd.setCursor(5, 1);
           lcd.print("Medium");
-          // Serial.println("Medium");
+          Serial.println("Medium");
       }
       else
       {
           lcd.setCursor(6, 1);
           lcd.print("Easy");
-          // Serial.println("Easy");
+          Serial.println("Easy");
       }
     resetValue = digitalRead(resetPin);
     if (resetValue != lastReset)
