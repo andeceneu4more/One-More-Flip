@@ -32,7 +32,7 @@ void printNow()
         lcd.print("Row ");
         lcd.print(posX);
         // Serial.print("Row ");
-        // Serial.println(posX);
+        // Serial.println(posX + 1);
     }
     else
     {
@@ -40,7 +40,7 @@ void printNow()
         lcd.print("Column ");
         lcd.print(posY);
         // Serial.print("Column ");
-        // Serial.println(posY);
+        // Serial.println(posY + 1);
     }
     lcd.setCursor(2, 1);
     lcd.print(remTurns);
