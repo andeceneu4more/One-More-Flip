@@ -8,6 +8,6 @@ Initially you have 32 leds on, and 32 off. The goal is to light up as many leds 
 
 E.g. 
 
-![Alt text](relative/path/to/matrix0.JPG?raw=true "Title")
+![matrix0](https://user-images.githubusercontent.com/37237590/50056198-a1d42080-0161-11e9-942c-a08545eb4a29.JPG)
 
 Have fun!
