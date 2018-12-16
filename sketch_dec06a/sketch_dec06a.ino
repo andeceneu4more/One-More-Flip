@@ -26,14 +26,26 @@ void printNow()
           lc.setLed(0, i, j, matrix[i][j]);
       }
     lcd.clear();
-    lcd.setCursor(2, 0);
-    lcd.print("Position ");
-    lcd.print(posX);
-    lcd.print(" ");
-    lcd.print(posY);
+    lcd.setCursor(4, 0);
+    if (selected == false)
+    {
+        lcd.print("Row ");
+        lcd.print(posX);
+        // Serial.print("Row ");
+        // Serial.println(posX);
+    }
+    else
+    {
+        lcd.print("Column ");
+        lcd.print(posY);
+        // Serial.print("Column ");
+        // Serial.println(posY);
+    }
     lcd.setCursor(2, 1);
     lcd.print(remTurns);
     lcd.print(" remaining");
+    // Serial.print(remTurns);
+    // Serial.println(" remaining");
 }
 void invertRow(int i)
 {
@@ -79,8 +91,10 @@ void printScore()
     lcd.clear();
     lcd.setCursor(4, 0);
     lcd.print("Congrats");
+    // Serial.print("Congrats");
     lcd.setCursor(1, 1);
     lcd.print("Your score");
+    // Serial.print("Your score");
     
     int count = 0, i, j;
     for (i = 0; i < 8; i++)
@@ -92,7 +106,7 @@ void printScore()
     float score = (count * 100.0) / 64;
     lcd.setCursor(12, 1);
     lcd.print(score, 1);
-    Serial.println(score, 1);
+    //Serial.println(score, 1);
 }
 void setup()
 {
@@ -107,6 +121,16 @@ void setup()
     pinMode(switchPin, INPUT_PULLUP);
     pinMode(resetPin, INPUT_PULLUP);
     Serial.begin(9600);
+
+    lcd.setCursor(3, 0);
+    lcd.print("Welcome to");
+    // Serial.println("Welcome to");
+    lcd.setCursor(1, 1);
+    lcd.print("One More Flip");
+    // Serial.println("One More Flip");
+
+    dellay(300);
+    lcd.clear();
 }
 boolean movedX = false, movedY = false, selected = false;
 void play()
@@ -172,7 +196,7 @@ void play()
   if (posX == -1) 
     posX = 7;
 
-  Serial.println(remTurns);
+  // Serial.println(remTurns);
   
   switchValue = digitalRead(switchPin);
   if (switchValue != lastSwitch)
@@ -261,15 +285,18 @@ void chooseDiff()
     if (difficulty == 0)
     {
         lcd.print("Hard");
+        // Serial.println("Hard");
     }
     else
       if (difficulty == 1)
       {
           lcd.print("Medium");
+          // Serial.println("Medium");
       }
       else
       {
           lcd.print("Easy");
+          // Serial.println("Easy");
       }
     resetValue = digitalRead(resetPin);
     if (resetValue != lastReset)
