@@ -26,9 +26,9 @@ void printNow()
           lc.setLed(0, i, j, matrix[i][j]);
       }
     lcd.clear();
-    lcd.setCursor(4, 0);
     if (selected == false)
     {
+        lcd.setCursor(5, 0);
         lcd.print("Row ");
         lcd.print(posX);
         // Serial.print("Row ");
@@ -36,6 +36,7 @@ void printNow()
     }
     else
     {
+        lcd.setCursor(4, 0);
         lcd.print("Column ");
         lcd.print(posY);
         // Serial.print("Column ");
@@ -281,20 +282,22 @@ void chooseDiff()
 {
     lcd.setCursor(3, 0);
     lcd.print("Choose dif.");
-    lcd.setCursor(6, 1);
     if (difficulty == 0)
     {
+        lcd.setCursor(6, 1);
         lcd.print("Hard");
         // Serial.println("Hard");
     }
     else
       if (difficulty == 1)
       {
+          lcd.setCursor(5, 1);
           lcd.print("Medium");
           // Serial.println("Medium");
       }
       else
       {
+          lcd.setCursor(6, 1);
           lcd.print("Easy");
           // Serial.println("Easy");
       }
@@ -351,7 +354,7 @@ void loop()
         break;
       case 2:
         chooseDiff();
-        //Serial.println("ChooseDifff");
+        //Serial.println("ChooseDiff");
         break;
     }
 }
