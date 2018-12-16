@@ -23,7 +23,7 @@ _____
     * Resistances, Capacitors and Cables
     * Joystick
 
-![img_20181216_195109](https://user-images.githubusercontent.com/37237590/50057167-49a41b00-016f-11e9-9e8d-5d51ea6734fe.jpg)
+![img_20181216_195109](https://user-images.githubusercontent.com/37237590/50058025-53cc1680-017b-11e9-9a53-f2940440e451.jpg)
 
 First of all, you chose the difficulty, by pressing the Reset Button. When you are ready, you press start by the swich of the joystick. You can press the Reset Button anytime while playing to restart a new game.
 
