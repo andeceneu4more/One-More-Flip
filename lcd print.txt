@@ -6,8 +6,12 @@
      Medium    
    Choose dif.  
       Easy    
+   Choose dif. 
+     Endless    
      Row 5     
   10 remaining 
+     Row 5     
+    Endless
     Column 5    
   10 remaining 
     Congrats    

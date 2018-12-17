@@ -1,6 +1,6 @@
 #include "LedControl.h"
 #include <LiquidCrystal.h>
-LedControl lc = LedControl(12, 11, 10, 1); //DIN, CLK, LOAD, No. DRIVER
+LedControl lc = LedControl(12, 11, 10, 1);
 LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
 #define intPin 9
 #define joyX A0
@@ -42,11 +42,20 @@ void printNow()
         Serial.print("Column ");
         Serial.println(posY + 1);
     }
-    lcd.setCursor(2, 1);
-    lcd.print(remTurns);
-    lcd.print(" remaining");
-    Serial.print(remTurns);
-    Serial.println(" remaining");
+    if (difficulty != 3)
+    {
+    	lcd.setCursor(2, 1);
+    	lcd.print(remTurns);
+    	Serial.print(remTurns);
+    	lcd.print(" remaining");
+    	Serial.println(" remaining");
+    }
+    else
+    {
+    	lcd.setCursor(4, 1);
+    	lcd.print("Endless");
+    	Serial.print("Endless");
+    }
 }
 void invertRow(int i)
 {
@@ -70,22 +79,53 @@ void initiate()
     posY = 0;
     lc.clearDisplay(0);
     int i, j;
-    for (i = 0; i < 8; i++)
-      for (j = 0; j < 8; j++)
-      {
-          matrix[i][j] = false;
-      }
-    int randRow, randColumn;
-    for (i = 0; i < 32; )
-    {
-        randRow = random(0, 8);
-        randColumn = random(0, 8);
-        if (matrix[randRow][randColumn] == false)
-        {
-            matrix[randRow][randColumn] = true;
-            i++;
-        }
-    }
+    int randRow, randColumn, flips;
+    if (difficulty == 3)
+	{
+		for (i = 0; i < 8; i++)
+	    	for (j = 0; j < 8; j++)
+		    {
+		        matrix[i][j] = false;
+		    }
+		for (i = 0; i < 32; )
+	    {
+	        randRow = random(0, 8);
+	        randColumn = random(0, 8);
+	        if (matrix[randRow][randColumn] == false)
+	        {
+	            matrix[randRow][randColumn] = true;
+	            i++;
+	        }
+	    }
+	}
+	else
+	{
+		for (i = 0; i < 8; i++)
+	    	for (j = 0; j < 8; j++)
+		    {
+		        matrix[i][j] = true;
+		    }
+		flips = difficulty * 10;
+		for (i = 0; i < flips / 2; i++)
+		{
+			randRow = random(0, 8);
+			invertRow(randRow);
+		}
+		for (; i < flips; i++)
+		{
+			randColumn = random(0, 8);
+			invertColumn(randColumn);
+		}
+	}
+}
+bool checkComplete()
+{
+	int i, j;
+	for (i = 0; i < 8; i++)
+		for (j = 0; j < 8; j++)
+			if (matrix[i][j] == false)
+				return false;
+	return true;
 }
 void printScore()
 {
@@ -107,7 +147,7 @@ void printScore()
     float score = (count * 100.0) / 64;
     lcd.setCursor(12, 1);
     lcd.print(score, 1);
-    //Serial.println(score, 1);
+    Serial.println(score, 1);
 }
 void setup()
 {
@@ -219,11 +259,22 @@ void play()
               {
                   invertColumn(posY);
               }
-              remTurns--;
-              if (remTurns == 0)
+              if (difficulty < 3)
               {
-                  printScore();
-                  state = 1; // goto final
+              	remTurns--;
+              	if (remTurns == 0)
+              	{
+                  	printScore();
+                  	state = 1; // goto final
+              	}
+              }
+              else
+              {
+              	if (checkComplete() == true)
+              	{
+              		printScore();
+                  	state = 1; // goto final
+              	}
               }
           }
       }
@@ -299,11 +350,18 @@ void chooseDiff()
           Serial.println("Medium");
       }
       else
-      {
-          lcd.setCursor(6, 1);
-          lcd.print("Easy");
-          Serial.println("Easy");
-      }
+      	if (difficulty == 2)
+		{
+	        lcd.setCursor(6, 1);
+	        lcd.print("Easy");
+	        Serial.println("Easy");
+	    }
+	    else
+	    {
+	    	lcd.setCursor(5, 1);
+	        lcd.print("Endless");
+	        Serial.println("Endless");
+	    }
     resetValue = digitalRead(resetPin);
     if (resetValue != lastReset)
     {
@@ -316,8 +374,9 @@ void chooseDiff()
             prevResetValue = resetValue;
             if (resetValue == HIGH)
             {
-                difficulty = (difficulty + 1) % 3;
-                remTurns = 15 * (difficulty + 1);
+                difficulty = (difficulty + 1) % 4;
+                if (difficulty < 3)
+                	remTurns = 15 * (difficulty + 1);
                 lcd.clear();
             }
         }
