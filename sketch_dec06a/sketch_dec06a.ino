@@ -80,43 +80,54 @@ void initiate()
     lc.clearDisplay(0);
     int i, j;
     int randRow, randColumn, flips;
+    bool prevX[8] = {0}, prevY[8] = {0};
     if (difficulty == 3)
-	{
-		for (i = 0; i < 8; i++)
-	    	for (j = 0; j < 8; j++)
-		    {
-		        matrix[i][j] = false;
-		    }
-		for (i = 0; i < 32; )
-	    {
-	        randRow = random(0, 8);
-	        randColumn = random(0, 8);
-	        if (matrix[randRow][randColumn] == false)
-	        {
-	            matrix[randRow][randColumn] = true;
-	            i++;
-	        }
-	    }
-	}
-	else
-	{
-		for (i = 0; i < 8; i++)
-	    	for (j = 0; j < 8; j++)
-		    {
-		        matrix[i][j] = true;
-		    }
-		flips = difficulty * 10;
-		for (i = 0; i < flips / 2; i++)
-		{
-			randRow = random(0, 8);
-			invertRow(randRow);
-		}
-		for (; i < flips; i++)
-		{
-			randColumn = random(0, 8);
-			invertColumn(randColumn);
-		}
-	}
+  	{
+  		for (i = 0; i < 8; i++)
+  	    	for (j = 0; j < 8; j++)
+  		    {
+  		        matrix[i][j] = false;
+  		    }
+  		for (i = 0; i < 32; )
+  	    {
+  	        randRow = random(0, 8);
+  	        randColumn = random(0, 8);
+  	        if (matrix[randRow][randColumn] == false)
+  	        {
+  	            matrix[randRow][randColumn] = true;
+  	            i++;
+  	        }
+  	    }
+  	}
+  	else
+  	{
+  		for (i = 0; i < 8; i++)
+  	    	for (j = 0; j < 8; j++)
+  		    {
+  		        matrix[i][j] = true;
+  		    }
+  		flips = (difficulty + 1) * 10;
+  		for (i = 0; i < flips / 2; )
+  		{
+  			randRow = random(0, 8);
+        if (prevX[randRow] == false)
+  			{
+  			  prevX[randRow] = true;
+  			  invertRow(randRow);
+          i++;
+  			}
+  		}
+  		for (; i < flips;)
+  		{
+  			randColumn = random(0, 8);
+  			if (prevY[randColumn] == false)
+  			{
+  			    prevY[randColumn] = true;
+  			    invertColumn(randColumn);
+            i++;
+  			}
+  		}
+  	}
 }
 bool checkComplete()
 {
@@ -264,17 +275,16 @@ void play()
               	remTurns--;
               	if (remTurns == 0)
               	{
+                    printNow();
                   	printScore();
                   	state = 1; // goto final
               	}
               }
-              else
+              if (checkComplete() == true)
               {
-              	if (checkComplete() == true)
-              	{
-              		printScore();
-                  	state = 1; // goto final
-              	}
+                printNow();
+                printScore();
+                state = 1; // goto final
               }
           }
       }
@@ -339,8 +349,8 @@ void chooseDiff()
     if (difficulty == 0)
     {
         lcd.setCursor(6, 1);
-        lcd.print("Hard");
-        Serial.println("Hard");
+        lcd.print("Easy");
+        Serial.println("Easy");
     }
     else
       if (difficulty == 1)
@@ -351,11 +361,11 @@ void chooseDiff()
       }
       else
       	if (difficulty == 2)
-		{
-	        lcd.setCursor(6, 1);
-	        lcd.print("Easy");
-	        Serial.println("Easy");
-	    }
+  		  {
+  	        lcd.setCursor(6, 1);
+  	        lcd.print("Hard");
+            Serial.println("Hard");
+  	    }
 	    else
 	    {
 	    	lcd.setCursor(5, 1);
