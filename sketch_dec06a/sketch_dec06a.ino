@@ -7,7 +7,7 @@ LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
 #define joyY A1
 #define switchPin 8
 #define resetPin 13
-int posX, posY, remTurns = 15, difficulty = 0;
+int posX, posY, remTurns, difficulty = 0;
 bool matrix[8][8] = {0};
 const int refreshRate = 500;
 int state = 2;
@@ -75,59 +75,27 @@ void invertColumn(int j)
 }
 void initiate()
 {
+	remTurns = 15 * (difficulty + 1);
     posX = 0;
     posY = 0;
     lc.clearDisplay(0);
     int i, j;
-    int randRow, randColumn, flips;
-    bool prevX[8] = {0}, prevY[8] = {0};
-    if (difficulty == 3)
-  	{
-  		for (i = 0; i < 8; i++)
-  	    	for (j = 0; j < 8; j++)
-  		    {
-  		        matrix[i][j] = false;
-  		    }
-  		for (i = 0; i < 32; )
-  	    {
-  	        randRow = random(0, 8);
-  	        randColumn = random(0, 8);
-  	        if (matrix[randRow][randColumn] == false)
-  	        {
-  	            matrix[randRow][randColumn] = true;
-  	            i++;
-  	        }
-  	    }
-  	}
-  	else
-  	{
-  		for (i = 0; i < 8; i++)
-  	    	for (j = 0; j < 8; j++)
-  		    {
-  		        matrix[i][j] = true;
-  		    }
-  		flips = (difficulty + 1) * 10;
-  		for (i = 0; i < flips / 2; )
-  		{
-  			randRow = random(0, 8);
-        if (prevX[randRow] == false)
-  			{
-  			  prevX[randRow] = true;
-  			  invertRow(randRow);
-          i++;
-  			}
-  		}
-  		for (; i < flips;)
-  		{
-  			randColumn = random(0, 8);
-  			if (prevY[randColumn] == false)
-  			{
-  			    prevY[randColumn] = true;
-  			    invertColumn(randColumn);
+    int randRow, randColumn;
+    for (i = 0; i < 8; i++)
+    	for (j = 0; j < 8; j++)
+	    {
+	        matrix[i][j] = false;
+	    }
+	for (i = 0; i < 32; )
+    {
+        randRow = random(0, 8);
+        randColumn = random(0, 8);
+        if (matrix[randRow][randColumn] == false)
+        {
+            matrix[randRow][randColumn] = true;
             i++;
-  			}
-  		}
-  	}
+        }
+    }
 }
 bool checkComplete()
 {
@@ -349,8 +317,8 @@ void chooseDiff()
     if (difficulty == 0)
     {
         lcd.setCursor(6, 1);
-        lcd.print("Easy");
-        Serial.println("Easy");
+        lcd.print("Hard");
+        Serial.println("Hard");
     }
     else
       if (difficulty == 1)
@@ -363,12 +331,12 @@ void chooseDiff()
       	if (difficulty == 2)
   		  {
   	        lcd.setCursor(6, 1);
-  	        lcd.print("Hard");
-            Serial.println("Hard");
+  	        lcd.print("Easy");
+            Serial.println("Easy");
   	    }
 	    else
 	    {
-	    	lcd.setCursor(5, 1);
+	    	  lcd.setCursor(5, 1);
 	        lcd.print("Endless");
 	        Serial.println("Endless");
 	    }
