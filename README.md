@@ -26,9 +26,9 @@ _____
 ![img_20181216_195109](https://user-images.githubusercontent.com/37237590/50058025-53cc1680-017b-11e9-9a53-f2940440e451.jpg)
 
 First of all, you chose the difficulty, by pressing the Reset Button.
-1. Easy, you have 15 turns
+1. Hard, you have 15 turns
 2. Medium, you have 30 turns
-3. Hard, you have only 45 turns
+3. Easy, you have only 45 turns
 4. Endless, you play until you light up the entire matrix
 If you complete the whole matrix, you won (100%).
 
