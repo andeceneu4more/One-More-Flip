@@ -9,13 +9,24 @@ LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
 #define resetPin 13
 int posX, posY, remTurns, difficulty = 0;
 bool matrix[8][8] = {0};
-const int refreshRate = 500;
+const int refreshRate = 300;
 int state = 2;
 int lastSwitchTime, lastResetTime, lastPrintedTime;
 boolean switchValue, prevSwitchValue = true;
 boolean resetValue, prevResetValue = true;
 boolean lastReset = false, lastSwitch = true;
 boolean selected = false;
+byte Skull[8] =
+{
+  B10000001,
+  B01000010,
+  B00100100,
+  B00011000,
+  B00011000,
+  B00100100,
+  B01000010,
+  B10000001
+};
 void printNow()
 {
     lc.clearDisplay(0);
@@ -117,6 +128,10 @@ void printScore()
     Serial.print("Your score");
     
     int count = 0, i, j;
+    lc.clearDisplay(0);
+    for (i = 0; i < 8; i++)
+      lc.setRow(0, i, Skull[i]);
+  
     for (i = 0; i < 8; i++)
       for (j = 0; j < 8; j++)
       {
