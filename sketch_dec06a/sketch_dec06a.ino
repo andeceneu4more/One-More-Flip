@@ -166,6 +166,8 @@ void setup()
 
     delay(3000);
     lcd.clear();
+
+    randomSeed(analogRead(A0));
 }
 boolean movedX = false, movedY = false;
 void play()
